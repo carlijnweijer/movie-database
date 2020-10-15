@@ -3,21 +3,28 @@ import axios from "axios";
 
 export default function DiscoverMoviesPage() {
   const [searchText, set_searchText] = useState("");
+  const [movies, setMovies] = useState({ status: "idle", data: [] });
 
   const search = async () => {
-    console.log("TODO search movies for:", searchText);
-
+    setMovies({ status: "loading", data: [] });
     // Best practice: encode the string so that special characters
     //  like '&' and '?' don't accidentally mess up the URL
     const queryParam = encodeURIComponent(searchText);
 
     // use the `axios` library to fetch the data
-    const data = await axios.get(
-      `https://omdbapi.com/?&apikey=aab4ea86&t=${queryParam}`
+    const response = await axios.get(
+      `https://omdbapi.com/?&apikey=aab4ea86&s=${queryParam}`
     );
 
-    console.log("Success!", data);
+    if (response.data.Response === "False") {
+      setMovies({ status: "error", data: [], message: response.data.Error });
+    } else {
+      setMovies({ status: "succes", data: response.data.Search });
+    }
+    set_searchText("");
   };
+
+  console.log(movies);
 
   function onSearchText(event) {
     console.log(event.target.value);
@@ -29,8 +36,21 @@ export default function DiscoverMoviesPage() {
       <h1>Discover some movies!</h1>
       <p>
         <input value={searchText} onChange={onSearchText} />
-        <button onClick={search}>Search</button>
+
+        <button disabled={movies.status === "loading"} onClick={search}>
+          Search
+        </button>
       </p>
+      {movies.status !== "error" ? movies.status : movies.message}
+
+      {movies.data.map((movie) => {
+        return (
+          <div className="moviesResults">
+            <p>{movie.Title}</p>
+            <img src={movie.Poster} />
+          </div>
+        );
+      })}
     </div>
   );
 }
