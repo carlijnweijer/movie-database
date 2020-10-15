@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function DiscoverMoviesPage() {
   const [searchText, set_searchText] = useState("");
@@ -45,9 +46,11 @@ export default function DiscoverMoviesPage() {
 
       {movies.data.map((movie) => {
         return (
-          <div className="moviesResults">
-            <p>{movie.Title}</p>
-            <img src={movie.Poster} />
+          <div>
+            <Link to={`/movies/${movie.imdbID}`}>
+              <p>{movie.Title}</p>
+            </Link>
+            <img src={movie.Poster} alt={movie.Title} />
           </div>
         );
       })}

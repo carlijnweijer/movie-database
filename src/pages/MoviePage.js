@@ -1,8 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 export default function MoviePage() {
-  const route_parameters = useParams();
+  const params = useParams();
+  const [movieDetails, setMovieDetails] = useState({
+    data: [],
+    status: "idle",
+  });
 
-  return <div>hello I'm a moviepage</div>;
+  useEffect(() => {
+    async function fetchDetails() {
+      const response = await axios.get(
+        `https://omdbapi.com/?&apikey=aab4ea86&i=${params.imdbID}`
+      );
+      console.log("what is response:", response);
+      setMovieDetails({ status: "succes", data: response.data });
+    }
+
+    fetchDetails();
+  }, [params.imdbID]);
+
+  console.log("WHAT ARE PARAMS:", params);
+
+  return (
+    <div>
+      <h1>{movieDetails.data?.Title}</h1>
+      <p>{movieDetails.data?.Plot}</p>
+      <img src={movieDetails.data?.Poster} alt={movieDetails.data?.Title} />
+      <p>{movieDetails.data?.Year}</p>
+      <p>{movieDetails.data?.Genre}</p>
+    </div>
+  );
 }

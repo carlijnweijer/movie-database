@@ -7,15 +7,20 @@ import DiscoverMoviesPage from "./pages/DiscoverMoviesPage";
 import Navbar from "./components/Navbar";
 import MoviePage from "./pages/MoviePage";
 
+function NotFound() {
+  return <h1>Are you drunk??</h1>;
+}
+
 function App() {
   return (
     <div className="App">
       <Navbar />
       <Switch>
-        <Route path="/discover" component={DiscoverMoviesPage} />
+        <Route exact path="/" component={HomePage} />
         <Route path="/about" component={AboutPage} />
-        <Route path="/" component={HomePage} />
-        <Route path="/discover/:imdb_id" component={MoviePage} />
+        <Route path="/discover" component={DiscoverMoviesPage} />
+        <Route path="/movies/:imdbID" component={MoviePage} />
+        <Route path="/" component={NotFound} />
       </Switch>
     </div>
   );
