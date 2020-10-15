@@ -1,0 +1,58 @@
+$backgroundColor: mintcream;
+
+div {
+  background-color: $backgroundColor;
+  font-family: "Montserrat", sans-serif;
+}
+
+.moviePage {
+  background-color: $backgroundColor;
+  padding-left: 30px;
+}
+
+.discoverPage {
+  padding-left: 30px;
+
+  .searchResult {
+    font-family: "Staatliches", sans-serif;
+    font-size: 1.3rem;
+    text-decoration: none;
+    color: midnightblue;
+  }
+}
+
+.inputField {
+  border: 0;
+  width: 45%;
+  border-bottom: 2px solid midnightblue;
+  outline: 0;
+  font-size: 1.3rem;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+
+.inputField:focus {
+  ~ .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: $backgroundColor;
+    font-weight: 700;
+  }
+  padding-bottom: 6px;
+  font-weight: 700;
+  border-width: 3px;
+  border-image: linear-gradient(to right, midnightblue, mediumturquoise);
+  border-image-slice: 1;
+}
+
+.searchBtn {
+  background-color: midnightblue;
+  border: 0;
+  padding: 11px;
+  color: white;
+  margin-left: 10px;
+}

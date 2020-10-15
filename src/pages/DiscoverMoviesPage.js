@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import "./MoviePage.scss";
 
 export default function DiscoverMoviesPage() {
   const [searchText, set_searchText] = useState("");
-  const [movies, setMovies] = useState({ status: "idle", data: [] });
+  const [movies, setMovies] = useState({
+    status: "waiting for search",
+    data: [],
+  });
 
   const search = async () => {
-    setMovies({ status: "loading", data: [] });
+    setMovies({ status: "loading..", data: [] });
     // Best practice: encode the string so that special characters
     //  like '&' and '?' don't accidentally mess up the URL
     const queryParam = encodeURIComponent(searchText);
@@ -33,12 +37,20 @@ export default function DiscoverMoviesPage() {
   }
 
   return (
-    <div>
+    <div className="discoverPage">
       <h1>Discover some movies!</h1>
       <p>
-        <input value={searchText} onChange={onSearchText} />
+        <input
+          className="inputField"
+          value={searchText}
+          onChange={onSearchText}
+        />
 
-        <button disabled={movies.status === "loading"} onClick={search}>
+        <button
+          className="searchBtn"
+          disabled={movies.status === "loading"}
+          onClick={search}
+        >
           Search
         </button>
       </p>
@@ -46,7 +58,7 @@ export default function DiscoverMoviesPage() {
 
       {movies.data.map((movie) => {
         return (
-          <div>
+          <div className="searchResult">
             <Link to={`/movies/${movie.imdbID}`}>
               <p>{movie.Title}</p>
             </Link>

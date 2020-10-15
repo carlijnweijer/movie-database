@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import "./MoviePage.scss";
 
 export default function MoviePage() {
   const params = useParams();
@@ -24,12 +25,12 @@ export default function MoviePage() {
   console.log("WHAT ARE PARAMS:", params);
 
   return (
-    <div>
+    <div className="moviePage">
       <h1>{movieDetails.data?.Title}</h1>
-      <p>{movieDetails.data?.Plot}</p>
-      <img src={movieDetails.data?.Poster} alt={movieDetails.data?.Title} />
       <p>{movieDetails.data?.Year}</p>
       <p>{movieDetails.data?.Genre}</p>
+      <p>{movieDetails.data?.Plot}</p>
+      <img src={movieDetails.data?.Poster} alt={movieDetails.data?.Title} />
     </div>
   );
 }
