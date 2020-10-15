@@ -12,7 +12,6 @@ export default function Navbar() {
       <NavLink exact to="/about" className="navlink">
         About
       </NavLink>
-
       <NavLink exact to="/discover" className="navlink">
         Discover
       </NavLink>
