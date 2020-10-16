@@ -1,32 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import "./MoviePage.scss";
 
 export default function DiscoverMoviesPage() {
-  const [searchText, set_searchText] = useState("");
+  const params = useParams();
+  const history = useHistory();
+  const [searchText, set_searchText] = useState(params.query);
   const [movies, setMovies] = useState({
     status: "waiting for search",
     data: [],
   });
 
-  const search = async () => {
-    setMovies({ status: "loading..", data: [] });
-    // Best practice: encode the string so that special characters
-    //  like '&' and '?' don't accidentally mess up the URL
-    const queryParam = encodeURIComponent(searchText);
-
-    // use the `axios` library to fetch the data
-    const response = await axios.get(
-      `https://omdbapi.com/?&apikey=aab4ea86&s=${queryParam}`
-    );
-
-    if (response.data.Response === "False") {
-      setMovies({ status: "error", data: [], message: response.data.Error });
-    } else {
-      setMovies({ status: "succes", data: response.data.Search });
+  useEffect(() => {
+    if (params.searchText === undefined || params.searchText === "") {
+      return;
     }
-    set_searchText("");
+    console.log(params.searchText, "what?");
+    async function fetchDetails() {
+      const response = await axios.get(
+        `https://omdbapi.com/?&apikey=aab4ea86&s=${params.searchText}`
+      );
+      console.log("what is response:", response);
+      setMovies({ status: "succes", data: response.data.Search });
+      set_searchText(params.searchText);
+    }
+
+    fetchDetails();
+  }, [params.searchText]);
+
+  const navigateToSearch = () => {
+    const routeParam = encodeURIComponent(searchText);
+    history.push(`/discover/${routeParam}`);
+
+    // const search = async () => {
+    //   setMovies({ status: "loading", data: [] });
+
+    //   // Best practice: encode the string so that special characters
+    //   //  like '&' and '?' don't accidentally mess up the URL
+
+    //   // use the `axios` library to fetch the data
+    //   const response = await axios.get(
+    //     `https://omdbapi.com/?&apikey=aab4ea86&s=${routeParam}`
+    //   );
+
+    //   if (response.data.Response === "False") {
+    //     setMovies({ status: "error", data: [], message: response.data.Error });
+    //   } else {
+    //     setMovies({ status: "succes", data: response.data.Search });
+    //   }
+    //   set_searchText("");
+    // };
   };
 
   console.log(movies);
@@ -49,7 +73,7 @@ export default function DiscoverMoviesPage() {
         <button
           className="searchBtn"
           disabled={movies.status === "loading"}
-          onClick={search}
+          onClick={navigateToSearch}
         >
           Search
         </button>

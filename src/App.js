@@ -17,7 +17,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/about" component={AboutPage} />
-        <Route path="/discover" component={DiscoverMoviesPage} />
+        <Route path="/discover/:searchText?" component={DiscoverMoviesPage} />
         <Route path="/movies/:imdbID" component={MoviePage} />
         <Route path="/" component={NotFound} />
       </Switch>
