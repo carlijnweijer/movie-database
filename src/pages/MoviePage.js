@@ -30,7 +30,7 @@ export default function MoviePage() {
       <p>{movieDetails.data?.Year}</p>
       <p>{movieDetails.data?.Genre}</p>
       <p>{movieDetails.data?.Plot}</p>
-      <img src={movieDetails.data?.Poster} alt={movieDetails.data?.Title} />
+      <img src={movieDetails.data?.Poster} alt="movieImage" />
     </div>
   );
 }
